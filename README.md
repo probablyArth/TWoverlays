@@ -1,2 +1,23 @@
-# TWoverlays
-twitch overlays for co-working streamers
+## Setup
+
+```
+npm install
+```
+
+## Lint
+
+```
+npm run lint
+```
+
+## Test
+
+```
+npm run test
+```
+
+## Development
+
+```
+npm run dev
+```
