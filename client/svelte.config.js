@@ -8,6 +8,6 @@ const config = {
 		adapter: adapter({
 			out: "../build", precompress: false, envPrefix: ""
 		})
-	}
+	},
 };
 export default config;

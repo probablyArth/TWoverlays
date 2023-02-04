@@ -1,6 +1,6 @@
-import request from 'supertest';
+import request from 'supertest'
 
-import app from '../src/app.js';
+import app from '../src/app.js'
 
 describe('app', () => {
   it('responds with a not found message', (done) => {
@@ -8,9 +8,9 @@ describe('app', () => {
       .get('/what-is-this-even')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(404, done);
-  });
-});
+      .expect(404, done)
+  })
+})
 
 describe('GET /', () => {
   it('responds with a json message', (done) => {
@@ -19,7 +19,7 @@ describe('GET /', () => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, {
-        message: '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
-      }, done);
-  });
-});
+        message: '🦄🌈✨👋🌎🌍🌏✨🌈🦄'
+      }, done)
+  })
+})
