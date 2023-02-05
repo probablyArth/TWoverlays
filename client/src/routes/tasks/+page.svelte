@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { useQuery } from '@sveltestack/svelte-query';
-	interface ITask {
-		name: string;
-		finished: boolean;
-		username: string;
-	}
-
+	import type { ITask } from '../../interfaces';
+	
 	const tasks = useQuery<ITask[], Error>(
 		'tasks',
 		() => fetch('http://localhost:5000/task').then((res) => res.json()),
@@ -21,7 +17,7 @@
 	{:else if $tasks.isSuccess}
 		<div>
 			{#each $tasks.data as task}
-				<h1>{task.username}: {task.name}</h1>
+				<h1>{task.user.name}: {task.name}</h1>
 			{/each}
 		</div>
 	{/if}

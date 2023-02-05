@@ -1,15 +1,16 @@
 import app from './app.js';
 import tmi from 'tmi.js';
 import { connect } from 'mongoose';
-import TaskModel from './models/task.js';
-import { getTasksCount, getUnfinishedTask } from './services/tasks.js';
+import {
+  getTasksCount,
+  getUnfinishedTask,
+  insertTask,
+} from './services/tasks.js';
 
 const port = process.env.PORT != null || 5000;
 
 app.listen(port, async () => {
   await connect(process.env.MONGO_URI as string);
-
-  console.log({ token: process.env.ACCESS_TOKEN });
   const client = new tmi.Client({
     options: { debug: true },
     identity: {
@@ -23,20 +24,18 @@ app.listen(port, async () => {
   client.on('message', async (channel, tags, message, self) => {
     if (self) return;
     if (message.startsWith('!')) {
+      const username = tags.username as string;
       const splitted = message.trim().split(' ');
       if (splitted[0] == '!add') {
         if (splitted.length > 1) {
           const taskName = splitted.slice(1).join(' ');
-          if ((await getUnfinishedTask(tags.username as string)) != null) {
+          if ((await getUnfinishedTask(username)) != null) {
             void client.say(
               channel,
               `@${tags.username} First finish your previous task!`
             );
           } else {
-            console.log({ username: tags.username });
-            await TaskModel.insertMany([
-              { username: tags.username, name: taskName, finished: false },
-            ]);
+            await insertTask(taskName, username);
             void client.say(
               channel,
               `@${tags.username} Task added successfully!`
@@ -49,7 +48,7 @@ app.listen(port, async () => {
           );
         }
       } else if (splitted[0] == '!finish') {
-        const task = await getUnfinishedTask(tags.username as string);
+        const task = await getUnfinishedTask(username);
         if (task != null) {
           task.finished = true;
           void task.save();
@@ -64,13 +63,13 @@ app.listen(port, async () => {
           );
         }
       } else if (splitted[0] == '!finished') {
-        const count = getTasksCount(tags.username as string);
+        const count = getTasksCount(username);
         void client.say(
           channel,
           `@${tags.username} has completed ${count} tasks!`
         );
       } else if (splitted[0] == '!current') {
-        const task = await getUnfinishedTask(tags.username as string).lean();
+        const task = await getUnfinishedTask(username).lean();
         if (task == null) {
           void client.say(
             channel,
