@@ -17,7 +17,7 @@ taskRouter.get('/leaderboard', async (req, res) => {
     count: number;
   }
   const response: IUsernameWithCount[] = await getUsernamesWithTaskCount();
-  return res.json(response.sort((a, b) => a.count - b.count));
+  return res.json(response.sort((a, b) => b.count - a.count));
 });
 
 export default taskRouter;
