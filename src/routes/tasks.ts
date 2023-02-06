@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import {
-  getAllTasksPopulated,
+  getAllUnfinishedTasks,
   getUsernamesWithTaskCount,
 } from '../services/tasks.js';
 
 const taskRouter = Router();
 
 taskRouter.get('/', async (req, res) => {
-  const response = await getAllTasksPopulated();
+  const response = await getAllUnfinishedTasks();
   return res.json(response);
 });
 

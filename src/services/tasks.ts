@@ -1,8 +1,13 @@
 import TaskModel from '../models/task.js';
 
-export const getAllTasksPopulated = () => {
-  return TaskModel.find({}).populate('user');
+export const getAllFinishedTasks = () => {
+  return TaskModel.find({});
 };
+
+export const getAllUnfinishedTasks = () => {
+  return TaskModel.find({ finished: false });
+};
+
 export const getUnfinishedTask = (username: string) => {
   return TaskModel.findOne({ username, finished: false });
 };

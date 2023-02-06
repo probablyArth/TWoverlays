@@ -1,12 +1,7 @@
-export interface IUser {
-	name: string;
-	tasks: ITask[];
-}
-
 export interface ITask {
 	name: string;
 	finished: boolean;
-	user: IUser;
+	username: string
 }
 
 export interface IUsernameWithCount {
