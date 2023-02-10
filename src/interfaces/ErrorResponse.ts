@@ -1,5 +1,4 @@
-import type MessageResponse from './MessageResponse.js'
-
-export default interface ErrorResponse extends MessageResponse {
-  stack?: string
+export default interface ErrorResponse {
+  stack?: string;
+  message: string;
 }
