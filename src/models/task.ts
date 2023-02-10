@@ -7,8 +7,8 @@ interface ITask {
 }
 
 const TaskSchema = new Schema<ITask>({
-  name: String,
-  finished: Boolean,
+  name: { type: String, required: true },
+  finished: { type: Boolean, required: true },
   username: { type: String, required: true },
 });
 

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { errorHandler } from '../middlewares.js';
 import { insertAccessToken } from '../services/auth.js';
 
 const authRouter = Router();
@@ -8,8 +9,8 @@ authRouter.post('/', async (req, res) => {
   try {
     await insertAccessToken(accessToken);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    return res.status(505).send({ message: e.message });
+  } catch (e) {
+    return errorHandler(e as Error, req, res);
   }
   return res.status(201).send({ message: 'Inserted succesfully!' });
 });
