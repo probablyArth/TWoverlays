@@ -1,7 +1,7 @@
 export interface ITask {
 	name: string;
 	finished: boolean;
-	username: string
+	username: string;
 }
 
 export interface IUsernameWithCount {

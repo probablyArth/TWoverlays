@@ -8,12 +8,8 @@
     "noImplicitAny": true,
     "strict": true,
     "skipLibCheck": true,
-    "moduleResolution": "nodenext",
+    "moduleResolution": "nodenext"
   },
-  "ts-node": {"esm": true},
-  "include": [
-    "./*.js",
-    "src/**/*.ts",
-    "test/**/*.ts",
-  ],
+  "ts-node": { "esm": true },
+  "include": ["./*.js", "src/**/*.ts"]
 }

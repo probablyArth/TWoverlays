@@ -9,6 +9,7 @@ import * as middlewares from './middlewares.js';
 // @ts-expect-error svelte generated frontend
 import { handler } from '../build/handler.js';
 import taskRouter from './routes/tasks.js';
+import authRouter from './routes/auth.js';
 config();
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.json());
 
 app.use('/task', taskRouter);
 app.use('/overlay', handler);
+app.use('/auth', authRouter);
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
 
