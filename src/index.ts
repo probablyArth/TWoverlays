@@ -1,18 +1,18 @@
 import app from './app.js';
 import tmi from 'tmi.js';
-import { connect } from 'mongoose';
 import {
   getTasksCount,
   getUnfinishedTask,
   insertTask,
 } from './services/tasks.js';
 import { getAccessToken } from './services/auth.js';
+import { initDb } from './services/dbService.js';
 
 const port = parseInt(process.env.PORT as string);
 
 app.listen(port, async () => {
   try {
-    await connect(process.env.MONGO_URI as string);
+    await initDb();
   } catch (e) {
     console.log(e);
     console.log(
@@ -42,7 +42,6 @@ app.listen(port, async () => {
         if (message.startsWith('!')) {
           const username = tags.username as string;
           const splitted = message.trim().split(' ');
-
           if (splitted[0] == '!add') {
             if (splitted.length > 1) {
               const taskName = splitted.slice(1).join(' ');
