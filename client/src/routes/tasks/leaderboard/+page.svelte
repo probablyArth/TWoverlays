@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { useQuery } from '@sveltestack/svelte-query';
 	import type { IUsernameWithCount } from '../../../interfaces';
+	import { page } from '$app/stores';
+	import { userInfo } from 'os';
 	const leaderboard = useQuery<IUsernameWithCount[], Error>(
 		'leaderboard',
 		() =>
@@ -11,13 +13,13 @@
 	);
 </script>
 
-<div class="text-2xl border-2 border-black tracking-tight bg-white">
+<div class="text-2xl border-2 border-black tracking-tight" style={`color: #${$page.url.searchParams.get("color")}`}>
 	{#if $leaderboard.isLoading}
 		<span>Loading...</span>
 	{:else if $leaderboard.error}
 		<span>An error has occurred: {$leaderboard.error.message}</span>
 	{:else if $leaderboard.isSuccess}
-		<table class="table-fixed w-screen max-h-screen  p-4 ">
+		<!-- <table class="table-fixed w-screen max-h-screen  p-4 ">
 			<thead>
 				<tr class="">
 					<th class="w-[65%]">username</th>
@@ -30,6 +32,9 @@
 					<td class="text-center">{user.count}</td>
 				</tr>
 			{/each}
-		</table>
+		</table> -->
+		{#each $leaderboard.data as user}
+			<h1 class="font-semibold">{user._id}: <span class="font-normal">{user.count}</span></h1>
+		{/each}
 	{/if}
 </div>
