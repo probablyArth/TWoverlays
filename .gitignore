@@ -7,6 +7,7 @@ yarn-error.log*
 
 # vite timestamps
 vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
 
 # Runtime data
 pids

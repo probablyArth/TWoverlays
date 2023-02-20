@@ -1,4 +1,4 @@
-import TaskModel from '../models/task.js';
+import TaskModel, { ITask } from '../models/task.js';
 
 export const getAllFinishedTasks = () => {
   return TaskModel.find({});
@@ -12,8 +12,13 @@ export const getUnfinishedTask = (username: string) => {
   return TaskModel.findOne({ username, finished: false });
 };
 
-export const insertTask = async (task: string, username: string) => {
-  return await TaskModel.create({ name: task, finished: false, username });
+export const insertTask = async ({ ...task }: ITask) => {
+  return await TaskModel.create({
+    name: task.name,
+    finished: task.finished,
+    username: task.username,
+    color: task.color,
+  });
 };
 
 export const getTasksCount = async (username: string) => {
@@ -29,10 +34,13 @@ export const getUserNames = () => {
 };
 
 export const getUsernamesWithTaskCount = () => {
-  return TaskModel.aggregate()
-    .match({ finished: true })
-    .group({
-      _id: '$username',
-      count: { $sum: 1 },
-    });
+  return TaskModel.aggregate([
+    {
+      $group: {
+        _id: '$username',
+        count: { $sum: 1 },
+        color: { $first: '$color' },
+      },
+    },
+  ]);
 };

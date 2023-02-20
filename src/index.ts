@@ -42,6 +42,7 @@ app.listen(port, async () => {
         if (message.startsWith('!')) {
           const username = tags.username as string;
           const splitted = message.trim().split(' ');
+          const color = tags.color as string;
           if (splitted[0] == '!add') {
             if (splitted.length > 1) {
               const taskName = splitted.slice(1).join(' ');
@@ -52,7 +53,12 @@ app.listen(port, async () => {
                   `@${tags.username} First finish your previous task!`
                 );
               } else {
-                await insertTask(taskName, username);
+                await insertTask({
+                  username,
+                  name: taskName,
+                  color,
+                  finished: false,
+                });
                 void client.say(
                   channel,
                   `@${tags.username} Task added successfully!`

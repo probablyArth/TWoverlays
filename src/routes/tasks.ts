@@ -20,6 +20,7 @@ taskRouter.get('/leaderboard', async (req, res) => {
   interface IUsernameWithCount {
     _id: string;
     count: number;
+    color: string;
   }
   try {
     const response: IUsernameWithCount[] = await getUsernamesWithTaskCount();
